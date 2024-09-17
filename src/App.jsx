@@ -77,7 +77,7 @@ function App() {
       </ul>
 
       <div id="file-upload">
-        <label>Select a file to upload for checking:
+        <label>Select a file to upload for compiling:
           <div>
             <input 
               type="file" 
