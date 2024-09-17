@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { determineLanguage } from "./utils"
 
 function App() {
@@ -7,6 +7,8 @@ function App() {
   const [selectedFile, setSelectedFile] = useState(undefined)
   const [fileUrl, setFileUrl] = useState(undefined)
   const [compileStatus, setCompileStatus] = useState('')
+  const [resetButtonVisibility, setResetButtonVisibility] = useState('none')
+  const [fileSelectAndCompileButtonDisabled, setFileSelectAndCompileButtonDisabled] = useState(false)
 
   const compile = async () => {
     if(selectedFile !== undefined) {
@@ -14,8 +16,7 @@ function App() {
       const CODE_EVALUATION_URL = 'https://api.hackerearth.com/v4/partner/code-evaluation/submissions/'
       const CLIENT_SECRET = import.meta.env['VITE_CLIENT_SECRET']
 
-      const fetchedFile = await fetch(selectedFile)
-      const fileContent = await fetchedFile.text()
+      const fileContent = await selectedFile.text()
 
       const data = {
         source: fileContent,
@@ -44,10 +45,12 @@ function App() {
 
         const compile = await compileResponse.json()
         if(compile['result']['compile_status'] === 'OK') {
-          setCompileStatus(`Code compilation succeeded in ${compile['result']['run_status']['time_used']} seconds!`)
+          setCompileStatus(`${fileUrl} compiled successfully in ${compile['result']['run_status']['time_used']} seconds!`)
         } else {
           setCompileStatus(`Code compilation failed: ${compile['result']['compile_status']}`)
         }
+        setResetButtonVisibility('block')
+        setFileSelectAndCompileButtonDisabled(true)
       }
     }
   }
@@ -68,27 +71,33 @@ function App() {
         <li>TypeScript</li>
       </ul>
 
-      <label>Select a file to upload for checking:
+      <label style={{display: fileSelectAndCompileButtonDisabled ? 'none' : 'block'}}>Select a file to upload for checking:
         <div>
           <input 
             type="file" 
             accept={ACCEPTED_EXTENSIONS} 
             onChange={e => {
               const file = e.target.files[0]
-              if(file) {
-                const fileContent = URL.createObjectURL(file)
-                setSelectedFile(fileContent)
-                setFileUrl(file.name)
-              }
+              setFileUrl(file.name)
+              setSelectedFile(file)
             }}
+            disabled={fileSelectAndCompileButtonDisabled}
           />
         </div>
       </label>
 
       <br></br>
 
-      <button onClick={compile}>Compile</button>
+      <button disabled={fileSelectAndCompileButtonDisabled} onClick={compile}>Compile</button>
       <p>{compileStatus}</p>
+      <button 
+        style={{'display': resetButtonVisibility}}
+        onClick={() => {
+          window.location.reload()
+        }}
+      >
+        Compile another file
+      </button>
     </>
   )
 }
