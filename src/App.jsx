@@ -8,7 +8,6 @@ function App() {
   const [fileUrl, setFileUrl] = useState(undefined)
   const [compileStatus, setCompileStatus] = useState('')
   const [resetButtonVisibility, setResetButtonVisibility] = useState('none')
-  const [fileSelectAndCompileButtonDisabled, setFileSelectAndCompileButtonDisabled] = useState(false)
 
   const compile = async () => {
     if(selectedFile !== undefined) {
@@ -49,10 +48,16 @@ function App() {
         } else {
           setCompileStatus(`Code compilation failed: ${compile['result']['compile_status']}`)
         }
-        setResetButtonVisibility('block')
-        setFileSelectAndCompileButtonDisabled(true)
+        reset()
       }
     }
+  }
+
+  const reset = () => {
+    setResetButtonVisibility('block')
+    document.getElementById('file-upload').remove()
+    document.getElementById('compile-btn').remove()
+    document.getElementById('upload-compile-br').remove()
   }
 
   return (
@@ -71,24 +76,25 @@ function App() {
         <li>TypeScript</li>
       </ul>
 
-      <label style={{display: fileSelectAndCompileButtonDisabled ? 'none' : 'block'}}>Select a file to upload for checking:
-        <div>
-          <input 
-            type="file" 
-            accept={ACCEPTED_EXTENSIONS} 
-            onChange={e => {
-              const file = e.target.files[0]
-              setFileUrl(file.name)
-              setSelectedFile(file)
-            }}
-            disabled={fileSelectAndCompileButtonDisabled}
-          />
-        </div>
-      </label>
+      <div id="file-upload">
+        <label>Select a file to upload for checking:
+          <div>
+            <input 
+              type="file" 
+              accept={ACCEPTED_EXTENSIONS} 
+              onChange={e => {
+                const file = e.target.files[0]
+                setFileUrl(file.name)
+                setSelectedFile(file)
+              }}
+            />
+          </div>
+        </label>
+      </div>
 
-      <br></br>
+      <br id="upload-compile-br"></br>
 
-      <button disabled={fileSelectAndCompileButtonDisabled} onClick={compile}>Compile</button>
+      <button id="compile-btn" onClick={compile}>Compile</button>
       <p>{compileStatus}</p>
       <button 
         style={{'display': resetButtonVisibility}}
