@@ -1,8 +1,16 @@
-# React + Vite
+# CompileChecker - Adriano D'Alonzo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<hr></hr>
 
-Currently, two official plugins are available:
+## Description
+- React application where the user can upload a file and will call an external API to compile it for them
+- Uses the [Hackerearth Compiler API](https://www.hackerearth.com/docs/wiki/developers/v4/) to compile files
+- Although the originating API supports a lot of languages, this application supports languages such as JavaScript, Python, Java, and more!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<strong>NOTE [Pertaining to certain languages]:</strong>
+- Upload only files containing a main/function in which the desired language requires to run it
+- This application is meant to work with single scripts/source code files which aren't reliant/dependant on other files/modules (i.e. modularized applications will not work)
+
+<hr></hr>
+
+![Demo](https://github.com/adridalo/CompileChecker/blob/main/demo.gif)
