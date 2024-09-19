@@ -3,7 +3,7 @@
 <hr></hr>
 
 ## Description
-- React application where the user can upload a file and will call an external API to compile it for them
+- Vite React application where the user can upload a file and will call an external API to compile it for them
 - Uses the [Hackerearth Compiler API](https://www.hackerearth.com/docs/wiki/developers/v4/) to compile files
 - Although the originating API supports a lot of languages, this application supports languages such as JavaScript, Python, Java, and more!
 
